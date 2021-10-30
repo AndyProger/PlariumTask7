@@ -17,6 +17,9 @@ namespace VariantB
     {
         static void Main(string[] args)
         {
+            // Создание и заполнение файловой БД
+            CreateAndFillDatabases();
+
             List<User> users;
             List<Letter> letters;
 
@@ -27,6 +30,10 @@ namespace VariantB
 
                 // выполняем основные методы с учетом сохраненных пользователей
                 CallMainMethods(users[1], users[0]);
+
+                // удаление БД
+                UsersDataBase.DeleteDatabase("DataBase");
+                LettersDataBase.DeleteDatabase("LettersDataBase");
 
                 // и завершаем программу корректно, в следующий раз снова будет вызвано исключение и так по кругу
                 return;
@@ -51,15 +58,14 @@ namespace VariantB
             // удаляем двух пользователей из БД
             UsersDataBase.DeleteUserFromDatabase(users[4], "DataBase");
             UsersDataBase.DeleteUserFromDatabase(users[3], "DataBase");
-            // возвращаем их в БД
-            UsersDataBase.AddUserToDatabase(new User("Dima", "Pogrib", new DateTime(2000, 9, 17), false), "DataBase");
-            UsersDataBase.AddUserToDatabase(new User("Roman", "Romanov", new DateTime(1989, 7, 1), false), "DataBase");
+
             // удаляем два письма из БД
             LettersDataBase.DeleteLetterFromDatabase(letters[4], "LettersDataBase");
             LettersDataBase.DeleteLetterFromDatabase(letters[3], "LettersDataBase");
-            // возвращаем их (письма) в БД
-            LettersDataBase.AddLetterToDatabase(new Letter("Study", "Can you share your homework?"), "LettersDataBase");
-            LettersDataBase.AddLetterToDatabase(new Letter("Study", "Link to videoconference"), "LettersDataBase");
+
+            // удаление БД
+            UsersDataBase.DeleteDatabase("DataBase");
+            LettersDataBase.DeleteDatabase("LettersDataBase");
 
             // вызываем исключение и аварийно завершаем программу
             CallExceptionAndSaveUsers();
@@ -157,6 +163,27 @@ namespace VariantB
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Создать и заполнить файловую БД
+        /// </summary>
+        public static void CreateAndFillDatabases()
+        {
+            UsersDataBase.CreateEmptyDatabase("DataBase");
+            LettersDataBase.CreateEmptyDatabase("LettersDataBase");
+
+            UsersDataBase.AddUserToDatabase(new User("Andrey", "Syradoev", new DateTime(2001, 12, 31), false), "DataBase");
+            UsersDataBase.AddUserToDatabase(new User("Sony", "Podmogilnay", new DateTime(2002, 4, 10), false), "DataBase");
+            UsersDataBase.AddUserToDatabase(new User("Ivan", "Ivanov", new DateTime(2005, 2, 3), false), "DataBase");
+            UsersDataBase.AddUserToDatabase(new User("Dima", "Pogrib", new DateTime(2000, 9, 17), false), "DataBase");
+            UsersDataBase.AddUserToDatabase(new User("Roman", "Romanov", new DateTime(1989, 7, 1), false), "DataBase");
+
+            LettersDataBase.AddLetterToDatabase(new Letter("Congratulations", "Happy Birthday!"), "LettersDataBase");
+            LettersDataBase.AddLetterToDatabase(new Letter("Work", "When will the report be submitted?"), "LettersDataBase");
+            LettersDataBase.AddLetterToDatabase(new Letter("Concert", "Are you going to go to the concert tonight?"), "LettersDataBase");
+            LettersDataBase.AddLetterToDatabase(new Letter("Study", "Can you share your homework?"), "LettersDataBase");
+            LettersDataBase.AddLetterToDatabase(new Letter("Study", "Link to videoconference"), "LettersDataBase");
         }
     }
 }
