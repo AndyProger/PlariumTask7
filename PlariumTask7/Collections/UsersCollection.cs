@@ -118,5 +118,18 @@ namespace CollectionOfUsers
                 return null;
             }
         }
+
+        public static void SaveUsersToJSON()
+        {
+            using (StreamWriter file = File.CreateText("SavedUsers.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer()
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.All
+                };
+
+                serializer.Serialize(file, Dictionary.Keys);
+            }
+        }
     }
 }

@@ -118,15 +118,7 @@ namespace VariantB
             catch
             {
                 // если возникло исключение сохраняем состояние коллекции в файл
-                using (StreamWriter file = File.CreateText("SavedUsers.json"))
-                {
-                    JsonSerializer serializer = new JsonSerializer()
-                    {
-                        PreserveReferencesHandling = PreserveReferencesHandling.All
-                    };
-
-                    serializer.Serialize(file, UsersCollection.Dictionary.Keys);
-                }
+                UsersCollection.SaveUsersToJSON();
 
                 // принудительно завершаем программу
                 Environment.Exit(-1);
